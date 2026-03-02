@@ -204,7 +204,8 @@ This enables parallel development while preserving architectural integrity.
 
 1. Open `/Unity` project in Unity Hub
 
-2. Ensure Meta XR SDK is installed
+2. Ensure All-in-One Meta XR SDK is installed
+https://assetstore.unity.com/packages/tools/integration/meta-xr-all-in-one-sdk-269657
 
 3. Set Build Target to Android
 
