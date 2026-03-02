@@ -2,6 +2,8 @@
 
 **Modular XR Dashboard Platform for Meta Quest Pro**
 
+Full Unity Link = https://drive.google.com/file/d/1ZHX23mvHM63EtozR6f1RLpPhmIcrx5nT/view?usp=sharing
+
 Meta-XR is a modular extended reality (XR) dashboard platform designed for the **Meta Quest Pro**. The system enables dynamic, slot-based widget modules (weather, health metrics, telemetry, and more) to render as a heads-up display (HUD) inside immersive environments.
 
 The architecture cleanly separates:
