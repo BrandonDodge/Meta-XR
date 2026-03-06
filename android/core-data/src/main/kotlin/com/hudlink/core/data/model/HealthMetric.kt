@@ -4,7 +4,7 @@ package com.hudlink.core.data.model
  * Base sealed class for all health metrics.
  * Provides type-safe handling of different metric types.
  */
-sealed class HealthMetric {
+sealed class HealthMetric : BleSerializable {
     abstract val timestamp: MetricTimestamp
     abstract val source: DataSource
     abstract val quality: DataQuality
