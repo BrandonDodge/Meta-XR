@@ -1,0 +1,5 @@
+/Users/zachs/Desktop/Meta-XR/Unity/.utmp/RelWithDebInfo/474r5g2k/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/zachs/Desktop/Meta-XR/Unity/.utmp/RelWithDebInfo/474r5g2k/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/zachs/Desktop/Meta-XR/Unity/.utmp/RelWithDebInfo/474r5g2k/arm64-v8a/GameActivity/CMakeFiles/game.dir
+/Users/zachs/Desktop/Meta-XR/Unity/.utmp/RelWithDebInfo/474r5g2k/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+/Users/zachs/Desktop/Meta-XR/Unity/.utmp/RelWithDebInfo/474r5g2k/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

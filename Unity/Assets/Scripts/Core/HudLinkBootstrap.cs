@@ -29,7 +29,19 @@ namespace HudLink.Core
 
         private void Start()
         {
+            EnablePassthrough();
             SetupDefaultWidgets();
+        }
+
+        private void EnablePassthrough()
+        {
+            // Set camera to render nothing so passthrough shows the real world
+            var cam = Camera.main;
+            if (cam != null)
+            {
+                cam.clearFlags = CameraClearFlags.SolidColor;
+                cam.backgroundColor = Color.clear;
+            }
         }
 
         private void SetupDefaultWidgets()
