@@ -1,0 +1,53 @@
+fileFormatVersion: 2
+guid: ac836826ee2860cb49751eacf5dbce12
+PluginImporter:
+  externalObjects: {}
+  serializedVersion: 3
+  iconMap: {}
+  executionOrder: {}
+  defineConstraints: []
+  isPreloaded: 0
+  isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
+  platformData:
+    Android:
+      enabled: 1
+      settings:
+        CPU: ARM64
+        Is16KbAligned: true
+    Any:
+      enabled: 0
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+        DefaultValueInitialized: true
+        OS: AnyOS
+    Linux64:
+      enabled: 0
+      settings:
+        CPU: ARM64
+    OSXUniversal:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+    Win:
+      enabled: 0
+      settings:
+        CPU: ARM64
+    Win64:
+      enabled: 0
+      settings:
+        CPU: ARM64
+    iOS:
+      enabled: 0
+      settings:
+        AddToEmbeddedBinaries: true
+        CPU: AnyCPU
+        CompileFlags: null
+        FrameworkDependencies: Foundation;UIKit;Security;Metal
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -12,6 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/HudLinkScene.unity
     guid: 08dd545cd352f416fae6efe05cdc7252
   m_configObjects:
+    NianticSpatial.NSDK.AR.AuthBuildSettings: {fileID: 11400000, guid: f4307afb0c7d983468ae4d7a429a8c71, type: 2}
+    NianticSpatial.NSDK.AR.NsdkSettings: {fileID: 11400000, guid: acb482c3214ec034eb2e5ba51665b279, type: 2}
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: b6dc321dc00a0cb4bb7688bdedbcbe54, type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: b46415ad05734cd499efcf18f509b5e6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 5f95daf68ac46e041a56175f1944d58d, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0217720e00a18b04082418dad797cae0, type: 2}
