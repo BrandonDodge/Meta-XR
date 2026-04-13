@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>HUD-Link Companion</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #f0f0f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #1a1a2e;
+            margin-bottom: 20px;
+        }
+        .header h1 { font-size: 22px; font-weight: 600; }
+        .header .status {
+            font-size: 13px;
+            margin-top: 6px;
+            color: #666;
+        }
+        .header .status.connected { color: #4ddb6e; }
+        .header .status.error { color: #ff5555; }
+
+        .card {
+            background: #12121a;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid #1e1e30;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-header.hr { color: #ff5a5a; }
+        .card-header.gps { color: #4dd4e6; }
+        .card-header.notif { color: #5a8aff; }
+
+        .value-display {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .value-unit {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .slider-group {
+            margin: 12px 0;
+        }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #1e1e30;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #5a8aff;
+            cursor: pointer;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:active { opacity: 0.7; }
+        .btn-primary { background: #5a8aff; color: white; }
+        .btn-success { background: #4ddb6e; color: #0a0a0f; }
+        .btn-danger { background: #ff5a5a; color: white; }
+        .btn-outline {
+            background: transparent;
+            color: #888;
+            border: 1px solid #2a2a40;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        .toggle-row label { font-size: 14px; color: #aaa; }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px 14px;
+            background: #1a1a28;
+            border: 1px solid #2a2a40;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .sim-status {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            padding: 4px;
+        }
+        .sim-status.active { color: #4ddb6e; }
+
+        .setup-section {
+            background: #0f0f18;
+            border: 1px dashed #2a2a40;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .setup-section h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #5a8aff;
+        }
+        .setup-section p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>HUD-Link Companion</h1>
+    <div class="status" id="connectionStatus">Not connected</div>
+</div>
+
+<!-- Firebase Setup -->
+<div class="setup-section" id="setupSection">
+    <h3>Firebase Setup</h3>
+    <p>Enter your Firebase Realtime Database URL:</p>
+    <input type="text" id="firebaseUrl" placeholder="https://your-project.firebaseio.com" />
+    <div class="btn-row" style="margin-top: 10px;">
+        <button class="btn btn-primary" onclick="saveFirebaseUrl()">Connect</button>
+    </div>
+</div>
+
+<!-- Heart Rate -->
+<div class="card">
+    <div class="card-header hr">&#9829; Heart Rate</div>
+    <div class="value-display" id="hrDisplay">72 <span class="value-unit">BPM</span></div>
+    <div class="slider-group">
+        <label><span>Heart Rate</span><span id="hrValue">72</span></label>
+        <input type="range" id="hrSlider" min="40" max="200" value="72" oninput="updateHR(this.value)">
+    </div>
+    <div class="btn-row">
+        <button class="btn btn-outline" onclick="setHR(60)">Rest</button>
+        <button class="btn btn-outline" onclick="setHR(85)">Walk</button>
+        <button class="btn btn-outline" onclick="setHR(120)">Run</button>
+        <button class="btn btn-outline" onclick="setHR(160)">Sprint</button>
+    </div>
+    <div class="toggle-row" style="margin-top: 10px;">
+        <label>Auto-simulate</label>
+        <input type="checkbox" id="hrAutoSim" onchange="toggleHRSim()">
+    </div>
+    <div class="sim-status" id="hrSimStatus"></div>
+</div>
+
+<!-- GPS -->
+<div class="card">
+    <div class="card-header gps">&#8982; Location</div>
+    <div class="slider-group">
+        <label><span>Speed (MPH)</span><span id="speedValue">3.5</span></label>
+        <input type="range" id="speedSlider" min="0" max="30" value="3.5" step="0.5" oninput="updateSpeed(this.value)">
+    </div>
+    <div class="slider-group">
+        <label><span>Heading</span><span id="headingValue">0° N</span></label>
+        <input type="range" id="headingSlider" min="0" max="359" value="0" oninput="updateHeading(this.value)">
+    </div>
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="useRealGPS()">Use Real GPS</button>
+        <button class="btn btn-outline" onclick="stopGPS()">Stop</button>
+    </div>
+    <div class="sim-status" id="gpsStatus"></div>
+</div>
+
+<!-- Notifications -->
+<div class="card">
+    <div class="card-header notif">&#9993; Notification</div>
+    <input type="text" id="notifApp" placeholder="App name (e.g. Messages)" value="Messages">
+    <input type="text" id="notifTitle" placeholder="Notification text" value="Hey, are you coming?" style="margin-top: 6px;">
+    <div class="btn-row">
+        <button class="btn btn-primary" onclick="sendNotification()">Send</button>
+        <button class="btn btn-outline" onclick="sendNotification(true)">Send Redacted</button>
+    </div>
+</div>
+
+<script>
+let firebaseUrl = localStorage.getItem('hudlink_firebase_url') || '';
+let hrSimInterval = null;
+let gpsWatchId = null;
+
+// Init
+if (firebaseUrl) {
+    document.getElementById('firebaseUrl').value = firebaseUrl;
+    document.getElementById('setupSection').style.display = 'none';
+    setStatus('connected', 'Connected to Firebase');
+}
+
+function saveFirebaseUrl() {
+    firebaseUrl = document.getElementById('firebaseUrl').value.replace(/\/$/, '');
+    if (!firebaseUrl) return;
+    localStorage.setItem('hudlink_firebase_url', firebaseUrl);
+    document.getElementById('setupSection').style.display = 'none';
+    setStatus('connected', 'Connected to Firebase');
+    pushHR(72); // Send initial data
+}
+
+function setStatus(cls, text) {
+    const el = document.getElementById('connectionStatus');
+    el.className = 'status ' + cls;
+    el.textContent = text;
+}
+
+// ---- Heart Rate ----
+function updateHR(val) {
+    document.getElementById('hrValue').textContent = val;
+    document.getElementById('hrDisplay').innerHTML = val + ' <span class="value-unit">BPM</span>';
+    pushHR(parseInt(val));
+}
+
+function setHR(val) {
+    document.getElementById('hrSlider').value = val;
+    updateHR(val);
+}
+
+function pushHR(bpm) {
+    if (!firebaseUrl) return;
+    fetch(`${firebaseUrl}/health/heartRate.json`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            bpm: bpm,
+            timestamp: Date.now()
+        })
+    }).catch(err => setStatus('error', 'Push failed'));
+}
+
+function toggleHRSim() {
+    const checked = document.getElementById('hrAutoSim').checked;
+    const statusEl = document.getElementById('hrSimStatus');
+
+    if (checked) {
+        let bpm = 72;
+        let direction = 1;
+        hrSimInterval = setInterval(() => {
+            bpm += direction * (Math.random() * 3);
+            if (bpm > 140) direction = -1;
+            if (bpm < 60) direction = 1;
+            bpm = Math.round(Math.max(45, Math.min(190, bpm)));
+            document.getElementById('hrSlider').value = bpm;
+            updateHR(bpm);
+        }, 1000);
+        statusEl.textContent = 'Simulating...';
+        statusEl.className = 'sim-status active';
+    } else {
+        clearInterval(hrSimInterval);
+        statusEl.textContent = '';
+        statusEl.className = 'sim-status';
+    }
+}
+
+// ---- GPS ----
+function updateSpeed(val) {
+    document.getElementById('speedValue').textContent = val;
+    pushGPS();
+}
+
+function updateHeading(val) {
+    const dirs = ['N','NE','E','SE','S','SW','W','NW'];
+    const idx = Math.round(val / 45) % 8;
+    document.getElementById('headingValue').textContent = `${val}° ${dirs[idx]}`;
+    pushGPS();
+}
+
+function pushGPS(lat, lon) {
+    if (!firebaseUrl) return;
+    fetch(`${firebaseUrl}/health/gps.json`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            speedMph: parseFloat(document.getElementById('speedSlider').value),
+            heading: parseFloat(document.getElementById('headingSlider').value),
+            latitude: lat || 38.9543,
+            longitude: lon || -95.2558,
+            hasFix: true,
+            timestamp: Date.now()
+        })
+    }).catch(err => setStatus('error', 'GPS push failed'));
+}
+
+function useRealGPS() {
+    const statusEl = document.getElementById('gpsStatus');
+    if (!navigator.geolocation) {
+        statusEl.textContent = 'GPS not available';
+        return;
+    }
+    statusEl.textContent = 'Acquiring GPS...';
+    statusEl.className = 'sim-status active';
+
+    gpsWatchId = navigator.geolocation.watchPosition(pos => {
+        const speed = pos.coords.speed ? pos.coords.speed * 2.237 : 0; // m/s to mph
+        const heading = pos.coords.heading || 0;
+        document.getElementById('speedSlider').value = Math.min(30, speed);
+        document.getElementById('speedValue').textContent = speed.toFixed(1);
+        document.getElementById('headingSlider').value = heading;
+        updateHeading(Math.round(heading));
+        pushGPS(pos.coords.latitude, pos.coords.longitude);
+        statusEl.textContent = `GPS active (±${Math.round(pos.coords.accuracy)}m)`;
+    }, err => {
+        statusEl.textContent = 'GPS error: ' + err.message;
+        statusEl.className = 'sim-status';
+    }, { enableHighAccuracy: true, maximumAge: 2000 });
+}
+
+function stopGPS() {
+    if (gpsWatchId !== null) {
+        navigator.geolocation.clearWatch(gpsWatchId);
+        gpsWatchId = null;
+    }
+    document.getElementById('gpsStatus').textContent = '';
+    document.getElementById('gpsStatus').className = 'sim-status';
+}
+
+// ---- Notifications ----
+function sendNotification(redacted = false) {
+    if (!firebaseUrl) return;
+    fetch(`${firebaseUrl}/health/notification.json`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            appName: document.getElementById('notifApp').value,
+            title: document.getElementById('notifTitle').value,
+            redacted: redacted,
+            timestamp: Date.now()
+        })
+    }).catch(err => setStatus('error', 'Notification push failed'));
+}
+</script>
+
+</body>
+</html>
