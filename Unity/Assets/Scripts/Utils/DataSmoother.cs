@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 
 namespace HudLink.Utils
@@ -27,6 +28,7 @@ namespace HudLink.Utils
             targetValue = newTarget;
             if (!isInitialized)
             {
+                // First sample snaps immediately so widgets do not animate in from zero.
                 currentValue = targetValue;
                 isInitialized = true;
             }
@@ -58,6 +60,7 @@ namespace HudLink.Utils
         
         public void Reset()
         {
+            // Reset forces the next sample to become the new baseline.
             isInitialized = false;
         }
     }

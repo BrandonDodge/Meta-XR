@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 
 namespace HudLink.HUD
@@ -44,6 +45,7 @@ namespace HudLink.HUD
                 var rect = slotGo.AddComponent<RectTransform>();
                 rect.sizeDelta = new Vector2(cellWidth, cellHeight);
 
+                // Convert the flat slot index into grid coordinates.
                 int col = i % 3;
                 int row = i / 3;
 
@@ -56,7 +58,7 @@ namespace HudLink.HUD
 
                 _slots[i] = rect;
 
-                // Mark safe zone as inactive by default
+                // Keep the center slot empty so it stays available for situational awareness.
                 if (i == (int)SlotPosition.SafeZone)
                     slotGo.SetActive(false);
             }

@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 namespace HudLink.Widgets
 {
     /// <summary>
@@ -18,12 +19,14 @@ namespace HudLink.Widgets
 
     public class HeartRateWidgetData : WidgetData
     {
+        // Heart rate uses an explicit validity flag so the UI can show sensor-loss states cleanly.
         public int Bpm { get; set; }
         public bool IsValid { get; set; }
     }
 
     public class GpsWidgetData : WidgetData
     {
+        // GPS data carries both motion context and a fix-state flag for fallback rendering.
         public float SpeedMph { get; set; }
         public float HeadingDegrees { get; set; }
         public double Latitude { get; set; }
@@ -33,6 +36,7 @@ namespace HudLink.Widgets
 
     public class NotificationWidgetData : WidgetData
     {
+        // Notifications can be redacted while still preserving the source-app context.
         public string AppName { get; set; }
         public string Title { get; set; }
         public bool IsRedacted { get; set; }

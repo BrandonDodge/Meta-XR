@@ -17,18 +17,23 @@ namespace HudLink.Widgets
         private float targetFillAmount = 0f;
         private float currentFillAmount = 0f;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<ActivityEvent>(OnActivityUpdate);
             if (progressRingFill != null) progressRingFill.fillAmount = 0;
             Debug.Log($"[{WidgetId}] ActivityWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<ActivityEvent>(OnActivityUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnActivityUpdate(ActivityEvent activityData)
@@ -38,12 +43,14 @@ namespace HudLink.Widgets
             Debug.Log($"[{WidgetId}] Activity Goal updated to {activityData.DailyGoalPercentage * 100}%");
         }
 
-        protected override void RenderWidget(float deltaTime)
+        private void Update()
         {
+            if (!Initialized) return;
+
             // Smoothly animate the ring fill based on the target value
             if (Mathf.Abs(currentFillAmount - targetFillAmount) > 0.001f)
             {
-                currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, deltaTime * animationSpeed);
+                currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, Time.deltaTime * animationSpeed);
                 if (progressRingFill != null)
                 {
                     progressRingFill.fillAmount = currentFillAmount;

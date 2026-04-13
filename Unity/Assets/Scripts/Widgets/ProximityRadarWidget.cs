@@ -17,17 +17,22 @@ namespace HudLink.Widgets
         private string trackingId;
         private Vector2 bearingCoordinates; // Map user directly
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<ProximityAlertEvent>(OnProximityUpdate);
             Debug.Log($"[{WidgetId}] ProximityRadarWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<ProximityAlertEvent>(OnProximityUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnProximityUpdate(ProximityAlertEvent proxEvent)
@@ -43,11 +48,6 @@ namespace HudLink.Widgets
             Debug.Log($"[{WidgetId}] Radar Target '{trackingId}' locked. Dist: {dist}m, Scale Output: {scaleFactor}");
             
             UpdateRadarVisuals(scaleFactor);
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            // Radar sweeping visual effect or pulsing ring effect goes here
         }
 
         private void UpdateRadarVisuals(float scale)

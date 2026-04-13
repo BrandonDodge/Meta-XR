@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using System.Collections.Generic;
 using UnityEngine;
 using HudLink.Widgets;
@@ -80,12 +81,11 @@ namespace HudLink.Dashboard
             foreach (var widget in activeWidgets)
             {
                 Vector2 bounds = widget.GetLayoutBounds();
-                Transform t = widgetTransforms[widget];
 
                 // Align target position to world space, ensuring safe zones are respected
                 targetPositions[widget] = new Vector3(currentX, currentY, currentZ);
                 
-                // Advance the horizontal slot incorporating padding
+                // Advance by the widget's reported width so larger panels do not overlap.
                 currentX += bounds.x + Padding;
             }
         }

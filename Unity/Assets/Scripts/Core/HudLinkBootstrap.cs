@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 using HudLink.HUD;
 using HudLink.Widgets;
@@ -29,6 +30,7 @@ namespace HudLink.Core
 
         private void Start()
         {
+            // Apply camera passthrough first so the HUD initializes against the final scene view.
             EnablePassthrough();
             SetupDefaultWidgets();
         }
@@ -46,6 +48,7 @@ namespace HudLink.Core
 
         private void SetupDefaultWidgets()
         {
+            // Register only the default widgets that are wired in the scene.
             if (heartRateWidgetPrefab != null)
             {
                 var hrWidget = CreateWidget<HeartRateWidget>(heartRateWidgetPrefab, "heart_rate");
@@ -69,6 +72,7 @@ namespace HudLink.Core
         {
             var go = Instantiate(prefab);
             go.name = $"Widget_{widgetId}";
+            // Prefabs are expected to already carry the requested widget component.
             var widget = go.GetComponent<T>();
             return widget;
         }

@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 using TMPro;
 
@@ -19,12 +20,20 @@ namespace HudLink.Widgets
         public string DisplayName => displayName;
         public bool IsVisible => gameObject.activeSelf;
 
+        public virtual Vector2 GetLayoutBounds()
+        {
+            var rect = GetComponent<RectTransform>();
+            // Layout managers use the widget rect as the default footprint.
+            return rect != null ? rect.rect.size : Vector2.zero;
+        }
+
         public virtual void Initialize(RectTransform slot)
         {
             SlotTransform = slot;
             transform.SetParent(slot, false);
 
             var rect = GetComponent<RectTransform>();
+            // Stretch the widget to fully occupy its assigned grid slot.
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
             rect.offsetMin = Vector2.zero;
@@ -48,6 +57,7 @@ namespace HudLink.Widgets
         public virtual void Dispose()
         {
             if (gameObject != null)
+                // Widgets own their instantiated GameObject lifetime.
                 Destroy(gameObject);
         }
 

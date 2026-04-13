@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 using HudLink.HUD;
 using HudLink.Widgets;
@@ -42,6 +43,7 @@ namespace HudLink.Data
 
         private void Update()
         {
+            // Each timer advances independently so widgets refresh on realistic, staggered cadences.
             _hrTimer += Time.deltaTime;
             _gpsTimer += Time.deltaTime;
             _notifTimer += Time.deltaTime;
@@ -67,6 +69,7 @@ namespace HudLink.Data
 
         private void PushHeartRateUpdate()
         {
+            // Mock heart-rate data keeps the HUD testable before live Android health data is wired up.
             var data = new HeartRateWidgetData
             {
                 Bpm = baseHeartRate + Random.Range(-heartRateVariance, heartRateVariance + 1),
@@ -83,6 +86,7 @@ namespace HudLink.Data
             _headingDrift += Random.Range(-10f, 10f);
             float heading = Mathf.Repeat(_headingDrift, 360f);
 
+            // Small heading and coordinate drift makes the GPS widget feel live without a device feed.
             var data = new GpsWidgetData
             {
                 SpeedMph = Mathf.Max(0, baseSpeedMph + Random.Range(-speedVariance, speedVariance)),
@@ -106,6 +110,7 @@ namespace HudLink.Data
 
         public void SimulateNotification(string appName, string title, bool redacted = false)
         {
+            // Notification payloads reuse the same HUD entry point as future bridge-delivered data.
             var data = new NotificationWidgetData
             {
                 AppName = appName,

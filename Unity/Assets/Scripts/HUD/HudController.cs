@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using System.Collections.Generic;
 using UnityEngine;
 using HudLink.Widgets;
@@ -51,7 +52,7 @@ namespace HudLink.HUD
                 return;
             }
 
-            // Remove existing widget in this slot
+            // Re-registering the same widget id replaces the existing live instance.
             if (_activeWidgets.ContainsKey(widget.WidgetId))
             {
                 _activeWidgets[widget.WidgetId].Dispose();
@@ -86,6 +87,7 @@ namespace HudLink.HUD
 
         public void UpdateWidget(string widgetId, WidgetData data)
         {
+            // Data routing stays string-based so the bridge layer does not need direct widget references.
             if (_activeWidgets.TryGetValue(widgetId, out var widget))
                 widget.UpdateData(data);
         }

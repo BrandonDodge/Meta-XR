@@ -14,18 +14,23 @@ namespace HudLink.Widgets
 
         private float currentStress = 0f;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<HRVStressEvent>(OnHRVUpdate);
             if (warningVignette != null) warningVignette.alpha = 0f;
             Debug.Log($"[{WidgetId}] StressMonitorWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<HRVStressEvent>(OnHRVUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnHRVUpdate(HRVStressEvent stressEvent)
@@ -33,14 +38,14 @@ namespace HudLink.Widgets
             currentStress = stressEvent.StressLevel;
         }
 
-        protected override void RenderWidget(float deltaTime)
+        private void Update()
         {
-            if (warningVignette == null) return;
+            if (!Initialized || warningVignette == null) return;
 
             // Interpolate a subtle red/orange vignette on the AR display 
             // if the user's autonomic system indicates elevated stress.
             float targetAlpha = currentStress > StressThreshold ? (currentStress - StressThreshold) * 2f : 0f;
-            warningVignette.alpha = Mathf.Lerp(warningVignette.alpha, targetAlpha, deltaTime);
+            warningVignette.alpha = Mathf.Lerp(warningVignette.alpha, targetAlpha, Time.deltaTime);
         }
     }
 }

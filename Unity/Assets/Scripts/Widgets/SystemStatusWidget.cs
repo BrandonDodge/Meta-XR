@@ -12,17 +12,22 @@ namespace HudLink.Widgets
         private float phoneCharge = 1.0f;
         private int bleSignal = 100;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<SystemStateEvent>(OnSystemUpdate);
             Debug.Log($"[{WidgetId}] SystemStatusWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<SystemStateEvent>(OnSystemUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnSystemUpdate(SystemStateEvent stateEvent)
@@ -32,11 +37,6 @@ namespace HudLink.Widgets
             bleSignal = stateEvent.SignalStrengthPercent;
 
             UpdateBatteryIcons();
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            // Low battery flash animation can loop here using Mathf.Sin
         }
 
         private void UpdateBatteryIcons()

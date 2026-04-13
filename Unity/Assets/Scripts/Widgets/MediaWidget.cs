@@ -19,18 +19,23 @@ namespace HudLink.Widgets
         private bool isPlaying = false;
         private float estimatedProgress = 0f;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<MediaPlaybackEvent>(OnMediaUpdate);
-            Suspend(); // Hide completely when media is stopped/disconnected
+            Hide();
             Debug.Log($"[{WidgetId}] MediaWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<MediaPlaybackEvent>(OnMediaUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnMediaUpdate(MediaPlaybackEvent mediaEvent)
@@ -40,22 +45,22 @@ namespace HudLink.Widgets
             isPlaying = mediaEvent.IsPlaying;
             estimatedProgress = mediaEvent.PlaybackProgress;
 
-            if (isPlaying && isSuspended)
+            if (isPlaying && !IsVisible)
             {
-                Resume(); // Unhide when music starts
+                Show();
             }
-            else if (!isPlaying && !isSuspended)
+            else if (!isPlaying && IsVisible)
             {
-                Suspend(); // Hide to prevent cluttering the HUD safe zone
+                Hide();
             }
         }
 
-        protected override void RenderWidget(float deltaTime)
+        private void Update()
         {
-            if (!isPlaying) return;
+            if (!Initialized || !isPlaying) return;
 
             // Simulate progress locally between BLE events to keep the bar smooth
-            estimatedProgress += deltaTime * 0.01f; // Fake time advancement rate
+            estimatedProgress += Time.deltaTime * 0.01f; // Fake time advancement rate
             if (estimatedProgress > 1f) estimatedProgress = 0f;
 
             if (playbackProgressBar != null)

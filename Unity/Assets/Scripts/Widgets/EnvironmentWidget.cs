@@ -17,17 +17,22 @@ namespace HudLink.Widgets
         private int aqi;
         private int uv;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
+            base.Initialize(slot);
             WidgetEventBus.Subscribe<EnvironmentDataEvent>(OnEnvironmentUpdate);
             Debug.Log($"[{WidgetId}] EnvironmentWidget Initialized.");
         }
 
-        public override void DestroyWidget()
+        public override void UpdateData(WidgetData data)
+        {
+            // This widget currently receives updates via WidgetEventBus.
+        }
+
+        public override void Dispose()
         {
             WidgetEventBus.Unsubscribe<EnvironmentDataEvent>(OnEnvironmentUpdate);
-            base.DestroyWidget();
+            base.Dispose();
         }
 
         private void OnEnvironmentUpdate(EnvironmentDataEvent envData)
@@ -36,12 +41,6 @@ namespace HudLink.Widgets
             aqi = envData.AirQualityIndex;
             uv = envData.UVIndex;
             UpdateEnvironmentalVisuals();
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            // Passive ambient particle effects (like dust/rain) could be triggered here
-            // based on the environmental conditions.
         }
 
         private void UpdateEnvironmentalVisuals()

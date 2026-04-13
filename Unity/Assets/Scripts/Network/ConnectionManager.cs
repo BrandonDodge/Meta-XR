@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using System;
 using UnityEngine;
 using HudLink.Events;
@@ -55,7 +56,7 @@ namespace HudLink.Network
             }
             else if (!SimulateDisconnect && !IsSimulatedConnected)
             {
-                // Simple simulated retry logic
+                // Retry locally so disconnected-state UX can be tested without the Android bridge online.
                 disconnectTimer += Time.deltaTime;
                 if (disconnectTimer >= retryInterval)
                 {
@@ -75,7 +76,7 @@ namespace HudLink.Network
                 wasConnected = IsSimulatedConnected;
                 Debug.Log($"[ConnectionManager] Status changed: IsConnected = {wasConnected}");
                 
-                // Broadcast to HUD widgets
+                // Publish once per state edge so widgets can swap between live and fallback states.
                 GlobalEventBus.Publish(new ConnectionStatusEvent(1, wasConnected));
             }
         }

@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using System;
 using System.Collections.Generic;
 
@@ -55,7 +56,7 @@ namespace HudLink.Events
             Type eventType = typeof(T);
             if (subscribers.ContainsKey(eventType))
             {
-                // Iterate backwards to allow safe removal during invocation if necessary
+                // Snapshot the handlers so listeners can unsubscribe during dispatch safely.
                 var handlers = subscribers[eventType].ToArray();
                 foreach (var handler in handlers)
                 {

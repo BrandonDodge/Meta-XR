@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
-using HudLink.Widgets;
 
 namespace HudLink.Events
 {
@@ -20,36 +18,11 @@ namespace HudLink.Events
 
         private void OnEnable()
         {
-            // Using generic subscription model, we could in theory subscribe to all, 
-            // but for Sprint 4 we focus on the important system flow events.
-            WidgetEventBus.Subscribe<HeartRateEvent>(OnHeartRateReceived);
-            // More event subscriptions could be added here
+            // Widget telemetry can be reconnected here if the data pipeline emits typed timing events again.
         }
 
         private void OnDisable()
         {
-            WidgetEventBus.Unsubscribe<HeartRateEvent>(OnHeartRateReceived);
-        }
-
-        private void OnHeartRateReceived(HeartRateEvent hrEvent)
-        {
-            float latency = Time.time - hrEvent.Timestamp;
-            
-            if (LogMessageTiming)
-            {
-                Debug.Log($"[Telemetry] HeartRateEvent received. Ver: {hrEvent.Version}. UI Latency: {latency:F3}s.");
-            }
-
-            if (latency > MaxAllowedLatency)
-            {
-                Debug.LogWarning($"[Telemetry] High latency detected on HR: {latency:F3}s > {MaxAllowedLatency}s!");
-            }
-
-            // Detect invalid payloads
-            if (hrEvent.BPM <= 0 || hrEvent.BPM >= 300)
-            {
-                Debug.LogError($"[Telemetry] Invalid payload detected: BPM is OUT OF RANGE ({hrEvent.BPM})");
-            }
         }
         
         // Listen to connection drops
@@ -65,6 +38,7 @@ namespace HudLink.Events
 
         private void OnConnectionUpdate(HudLink.Network.ConnectionStatusEvent ev)
         {
+            // Connection transitions are still logged so headset-side testing keeps observability.
             Debug.Log($"[Telemetry] Connection event triggered. Connected: {ev.IsConnected}. Time: {ev.Timestamp}");
         }
     }

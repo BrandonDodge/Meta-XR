@@ -1,3 +1,4 @@
+// See HudLink.Core.ProjectContributionLedger for sprint attribution and dated maintenance notes.
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -29,7 +30,8 @@ namespace HudLink.Widgets
             _titleLabel.fontSize = 16;
             _titleLabel.color = WidgetStyles.TextSecondary;
             _titleLabel.alignment = TextAlignmentOptions.MidlineLeft;
-            _titleLabel.enableWordWrapping = true;
+            // Use the current TMP API so wrapping stays explicit and warning-free.
+            _titleLabel.textWrappingMode = TextWrappingModes.Normal;
             _titleLabel.overflowMode = TextOverflowModes.Ellipsis;
 
             _statusLabel = WidgetStyles.CreateStatusBar(transform);
