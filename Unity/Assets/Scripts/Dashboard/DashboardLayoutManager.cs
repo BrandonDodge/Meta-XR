@@ -79,14 +79,11 @@ namespace HudLink.Dashboard
 
             foreach (var widget in activeWidgets)
             {
-                Vector2 bounds = widget.GetLayoutBounds();
-                Transform t = widgetTransforms[widget];
-
                 // Align target position to world space, ensuring safe zones are respected
                 targetPositions[widget] = new Vector3(currentX, currentY, currentZ);
-                
+
                 // Advance the horizontal slot incorporating padding
-                currentX += bounds.x + Padding;
+                currentX += 0.2f + Padding;
             }
         }
     }
