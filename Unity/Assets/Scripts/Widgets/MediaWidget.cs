@@ -1,67 +1,35 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 namespace HudLink.Widgets
 {
-    /// <summary>
-    /// Displays currently playing media from the smartphone.
-    /// Incorporates dynamic scrubbing/progress visualization mapped to Unity sliders.
-    /// </summary>
     public class MediaWidget : BaseWidget
     {
-        [Header("Media Layout")]
-        [Tooltip("Maps to an AR UI Slider element")]
-        [SerializeField] private Slider playbackProgressBar;
-        
-        // Private state
-        private string trackTitle;
-        private string artistTitle;
-        private bool isPlaying = false;
-        private float estimatedProgress = 0f;
+        private TextMeshProUGUI _titleLabel;
+        private TextMeshProUGUI _statusLabel;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
-            WidgetEventBus.Subscribe<MediaPlaybackEvent>(OnMediaUpdate);
-            Suspend(); // Hide completely when media is stopped/disconnected
-            Debug.Log($"[{WidgetId}] MediaWidget Initialized.");
+            base.Initialize(slot);
+            WidgetStyles.CreateStyledBackground(transform, WidgetStyles.BgPrimary, new Color(0.8f, 0.4f, 1f));
+            WidgetStyles.CreateHeader(transform, "\u266B", "MEDIA", new Color(0.8f, 0.4f, 1f));
+
+            var contentGo = new GameObject("Content");
+            contentGo.transform.SetParent(transform, false);
+            var contentRect = contentGo.AddComponent<RectTransform>();
+            contentRect.anchorMin = new Vector2(0, 0.2f);
+            contentRect.anchorMax = new Vector2(1, 1f - WidgetStyles.HeaderHeight);
+            contentRect.offsetMin = new Vector2(WidgetStyles.PaddingOuter, 0);
+            contentRect.offsetMax = new Vector2(-WidgetStyles.PaddingOuter, -WidgetStyles.PaddingInner);
+            _titleLabel = contentGo.AddComponent<TextMeshProUGUI>();
+            _titleLabel.text = "No media playing";
+            _titleLabel.fontSize = 16;
+            _titleLabel.color = WidgetStyles.TextSecondary;
+            _titleLabel.alignment = TextAlignmentOptions.MidlineLeft;
+
+            _statusLabel = WidgetStyles.CreateStatusBar(transform);
         }
 
-        public override void DestroyWidget()
-        {
-            WidgetEventBus.Unsubscribe<MediaPlaybackEvent>(OnMediaUpdate);
-            base.DestroyWidget();
-        }
-
-        private void OnMediaUpdate(MediaPlaybackEvent mediaEvent)
-        {
-            trackTitle = mediaEvent.TrackName;
-            artistTitle = mediaEvent.ArtistName;
-            isPlaying = mediaEvent.IsPlaying;
-            estimatedProgress = mediaEvent.PlaybackProgress;
-
-            if (isPlaying && isSuspended)
-            {
-                Resume(); // Unhide when music starts
-            }
-            else if (!isPlaying && !isSuspended)
-            {
-                Suspend(); // Hide to prevent cluttering the HUD safe zone
-            }
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            if (!isPlaying) return;
-
-            // Simulate progress locally between BLE events to keep the bar smooth
-            estimatedProgress += deltaTime * 0.01f; // Fake time advancement rate
-            if (estimatedProgress > 1f) estimatedProgress = 0f;
-
-            if (playbackProgressBar != null)
-            {
-                playbackProgressBar.value = estimatedProgress;
-            }
-        }
+        public override void UpdateData(WidgetData data) { }
     }
 }

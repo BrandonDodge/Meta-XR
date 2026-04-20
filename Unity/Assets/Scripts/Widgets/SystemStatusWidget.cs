@@ -1,49 +1,24 @@
 using UnityEngine;
+using TMPro;
 
 namespace HudLink.Widgets
 {
-    /// <summary>
-    /// Minimalist dock widget rendering battery life of the phone and headset,
-    /// and the stability of the active BLE connection.
-    /// </summary>
     public class SystemStatusWidget : BaseWidget
     {
-        private float headsetCharge = 1.0f;
-        private float phoneCharge = 1.0f;
-        private int bleSignal = 100;
+        private TextMeshProUGUI _valueLabel;
+        private TextMeshProUGUI _statusLabel;
 
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
-            WidgetEventBus.Subscribe<SystemStateEvent>(OnSystemUpdate);
-            Debug.Log($"[{WidgetId}] SystemStatusWidget Initialized.");
+            base.Initialize(slot);
+            WidgetStyles.CreateStyledBackground(transform, WidgetStyles.BgPrimary, WidgetStyles.AccentBlue);
+            WidgetStyles.CreateHeader(transform, "\u2699", "SYSTEM", WidgetStyles.AccentBlue);
+            _valueLabel = WidgetStyles.CreateValueDisplay(transform, "OK");
+            _valueLabel.fontSize = 32;
+            _statusLabel = WidgetStyles.CreateStatusBar(transform, "All systems nominal");
+            _statusLabel.color = WidgetStyles.AccentGreen;
         }
 
-        public override void DestroyWidget()
-        {
-            WidgetEventBus.Unsubscribe<SystemStateEvent>(OnSystemUpdate);
-            base.DestroyWidget();
-        }
-
-        private void OnSystemUpdate(SystemStateEvent stateEvent)
-        {
-            headsetCharge = stateEvent.HeadsetBatteryLevel;
-            phoneCharge = stateEvent.PhoneBatteryLevel;
-            bleSignal = stateEvent.SignalStrengthPercent;
-
-            UpdateBatteryIcons();
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            // Low battery flash animation can loop here using Mathf.Sin
-        }
-
-        private void UpdateBatteryIcons()
-        {
-            // UI code bridging goes here
-            // Changes icon to orange if < 20%, red if < 10%
-            Debug.Log($"[{WidgetId}] Sys Update -> AR: {headsetCharge*100}% | Mobile: {phoneCharge*100}% | BLE: {bleSignal}%");
-        }
+        public override void UpdateData(WidgetData data) { }
     }
 }

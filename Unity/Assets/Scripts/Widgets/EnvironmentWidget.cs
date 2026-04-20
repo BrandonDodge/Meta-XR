@@ -1,57 +1,23 @@
 using UnityEngine;
+using TMPro;
 
 namespace HudLink.Widgets
 {
-    /// <summary>
-    /// Consolidates external contextual data (Weather, AQI, UV) into a simple AR badge.
-    /// Highly useful for running/cycling scenarios in AR glasses.
-    /// </summary>
     public class EnvironmentWidget : BaseWidget
     {
-        [Header("Environmental Thresholds")]
-        [SerializeField] private Color safeAQIColor = Color.green;
-        [SerializeField] private Color warningAQIColor = new Color(1f, 0.5f, 0f); // Orange
-        [SerializeField] private Color hazardousAQIColor = Color.red;
+        private TextMeshProUGUI _valueLabel;
+        private TextMeshProUGUI _statusLabel;
 
-        private float tempC;
-        private int aqi;
-        private int uv;
-
-        public override void Initialize()
+        public override void Initialize(RectTransform slot)
         {
-            base.Initialize();
-            WidgetEventBus.Subscribe<EnvironmentDataEvent>(OnEnvironmentUpdate);
-            Debug.Log($"[{WidgetId}] EnvironmentWidget Initialized.");
+            base.Initialize(slot);
+            WidgetStyles.CreateStyledBackground(transform, WidgetStyles.BgPrimary, WidgetStyles.AccentYellow);
+            WidgetStyles.CreateHeader(transform, "\u2600", "ENVIRONMENT", WidgetStyles.AccentYellow);
+            _valueLabel = WidgetStyles.CreateValueDisplay(transform, "--\u00b0");
+            WidgetStyles.CreateUnitLabel(transform, "F");
+            _statusLabel = WidgetStyles.CreateStatusBar(transform, "No data");
         }
 
-        public override void DestroyWidget()
-        {
-            WidgetEventBus.Unsubscribe<EnvironmentDataEvent>(OnEnvironmentUpdate);
-            base.DestroyWidget();
-        }
-
-        private void OnEnvironmentUpdate(EnvironmentDataEvent envData)
-        {
-            tempC = envData.TemperatureC;
-            aqi = envData.AirQualityIndex;
-            uv = envData.UVIndex;
-            UpdateEnvironmentalVisuals();
-        }
-
-        protected override void RenderWidget(float deltaTime)
-        {
-            // Passive ambient particle effects (like dust/rain) could be triggered here
-            // based on the environmental conditions.
-        }
-
-        private void UpdateEnvironmentalVisuals()
-        {
-            Color currentAQIColor = safeAQIColor;
-            if (aqi > 100) currentAQIColor = warningAQIColor;
-            if (aqi > 150) currentAQIColor = hazardousAQIColor;
-
-            // In a real implementation we update a Canvas / TextMeshPro element here
-            Debug.Log($"[{WidgetId}] Weather: {tempC}°C | UV: {uv} | AQI: {aqi} (Color: {currentAQIColor})");
-        }
+        public override void UpdateData(WidgetData data) { }
     }
 }
