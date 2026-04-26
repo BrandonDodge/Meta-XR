@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: ic_launcher_round.xml
+ Description: Defines the round adaptive launcher icon layers for Android launchers that request it.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added starter round launcher icon resource.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android API 26+ adaptive icon tooling reads this resource.
+ Acceptable Inputs: Valid background color and foreground drawable resource references.
+ Unacceptable Inputs: Missing drawable references, missing colors, or malformed adaptive-icon XML.
+ Postconditions: Android launchers can render the round HUD-Link app icon.
+ Return Values: Icon XML does not return values; Android generates mipmap resource IDs.
+ Error and Exception Conditions: Resource compilation fails on invalid XML or unresolved resource references.
+ Side Effects: Adds round launcher icon metadata to the generated APK.
+ Invariants: The icon uses the same foreground mark as the square launcher icon.
+ Known Faults: Artwork is placeholder-level and can be replaced by a final brand asset.
+ Major Blocks: The background layer supplies color, and the foreground layer supplies the vector mark.
+ Line Comments: XML comments are kept at the artifact level because the layer tags are standard Android icon syntax.
+-->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@color/purple_500"/>
     <foreground android:drawable="@drawable/ic_launcher_foreground"/>

@@ -1,3 +1,22 @@
+# Code Artifact: android/.gitignore
+# Description: Keeps Android module build output, IDE files, packages, signing files, and logs out of source control.
+# Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+# Date Created: 2026-02-15
+# Revision History:
+# - 2026-02-15 - Zach Sevart - Added starter Android ignore rules.
+# - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+# Preconditions: Git reads this file when commands run inside or below the android folder.
+# Acceptable Inputs: Git ignore patterns for generated Android and IDE files.
+# Unacceptable Inputs: Patterns that hide Kotlin source, manifests, resources, or Gradle scripts that should be reviewed.
+# Postconditions: Local Android build outputs stay out of normal Git status and staging.
+# Return Values: Git ignore files do not return values; Git consumes the patterns.
+# Error and Exception Conditions: Bad patterns can accidentally hide source files, so source directories are not ignored here.
+# Side Effects: Changes how Git reports local generated Android files.
+# Invariants: The Gradle wrapper JAR remains visible and trackable.
+# Known Faults: Existing tracked generated files remain tracked until explicitly removed.
+# Major Blocks: Gradle, IDE, generated package, signing, and log rules are grouped below.
+# Line Comments: Each group has a short heading so the ignore intent stays clear.
+
 # Gradle
 .gradle/
 build/

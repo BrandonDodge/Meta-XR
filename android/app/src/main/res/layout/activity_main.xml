@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: activity_main.xml
+ Description: Defines the Android companion debug screen with title, controls, and live log list.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added the first debug interface for the Android companion app.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: View binding is enabled and MainActivity inflates this layout.
+ Acceptable Inputs: Valid Android view IDs, ConstraintLayout attributes, string resources, and preview tool values.
+ Unacceptable Inputs: Duplicate IDs, missing string resources, invalid constraints, or views that break binding names.
+ Postconditions: MainActivity receives binding handles for the title, buttons, and RecyclerView.
+ Return Values: Layout XML does not return values; Android resource tools generate binding classes from it.
+ Error and Exception Conditions: Resource compilation fails on invalid XML, missing attributes, or unresolved resources.
+ Side Effects: Generates ActivityMainBinding and determines the companion screen structure.
+ Invariants: Button IDs stay aligned with MainActivity and the RecyclerView stays anchored below the subtitle.
+ Known Faults: This debug screen is intentionally simple and is not the final production companion UI.
+ Major Blocks: The title/subtitle block identifies the app, the buttons control collection, and the RecyclerView shows logs.
+ Line Comments: XML comments are kept at the artifact and block level so layout attributes stay readable.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

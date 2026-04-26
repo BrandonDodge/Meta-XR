@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: themes.xml
+ Description: Defines the Android companion app theme used by the launcher activity.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added starter app theme resources.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android resource tools load this file and the manifest references Theme.HudLink.
+ Acceptable Inputs: Valid style names, parent themes, and resource references.
+ Unacceptable Inputs: Missing parent themes, malformed XML, or style names that no longer match the manifest.
+ Postconditions: MainActivity launches with the intended app theme.
+ Return Values: Resource XML does not return values; Android generates integer resource IDs.
+ Error and Exception Conditions: Resource compilation fails on invalid XML or unresolved theme references.
+ Side Effects: Adds style resources to the generated R class and influences app rendering.
+ Invariants: Theme.HudLink remains the manifest theme name.
+ Known Faults: Theme styling is minimal while the app remains a debug companion surface.
+ Major Blocks: The resources block contains the app theme and its item overrides.
+ Line Comments: XML comments are kept at the artifact level because style item names are standard Android names.
+-->
 <resources>
     <style name="Theme.HudLink" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/purple_500</item>

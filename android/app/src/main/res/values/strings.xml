@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: strings.xml
+ Description: Stores user-facing text for the Android companion debug screen.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added base app strings for the companion screen.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android resource tools load this file during app resource compilation.
+ Acceptable Inputs: Valid string resource names and short user-facing labels.
+ Unacceptable Inputs: Duplicate names, malformed XML, or labels that do not match the buttons and debug view.
+ Postconditions: Layouts and activities can reference stable string resource IDs.
+ Return Values: Resource XML does not return values; Android generates integer resource IDs.
+ Error and Exception Conditions: Resource compilation fails on invalid XML or duplicate resource names.
+ Side Effects: Adds app text to the generated R class.
+ Invariants: Button text names stay aligned with MainActivity collection states.
+ Known Faults: Strings are English-only until localization is planned.
+ Major Blocks: The resources block groups all companion-screen string values.
+ Line Comments: XML comments are kept at the artifact level because each string name is self-describing.
+-->
 <resources>
     <string name="app_name">HUD-Link</string>
     <string name="debug_log">Sprint 2 Debug Log</string>

@@ -1,3 +1,24 @@
+/*
+ Code Artifact: WidgetStyles.cs
+ Description: Centralizes widget colors, spacing, font sizes, and factory helpers for common UI elements.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-03-27
+ Revision History:
+ - 2026-03-27 - Zach Sevart - Improve widget UI styling and add team setup guide
+ - 2026-04-26 - HudLink development team - Added release prologue comments and tightened sprint-review documentation.
+ - 2026-04-26 - HudLink development team - Matched runtime headset widgets to the virtual demo edge-card HUD style.
+ Preconditions: Unity calls this artifact on the main thread; required scene references and serialized fields are assigned before runtime use.
+ Acceptable Inputs: Valid Unity objects, event payloads, widget data, enum values, and inspector settings documented by the fields below.
+ Unacceptable Inputs: Missing required scene references, null widget components, invalid slot choices, or sensor values outside the documented model ranges.
+ Postconditions: HUD state, widget UI, event subscriptions, or diagnostic output is updated according to the public method that was called.
+ Return Values: Unity lifecycle methods return void; helper methods return the type named in the method signature, or null only where the method documents a missing reference.
+ Error and Exception Conditions: Unity may log errors or warnings for missing references, wrong prefab setup, invalid data, or unsupported slot assignments.
+ Side Effects: May create, parent, destroy, activate, deactivate, or recolor Unity GameObjects and may publish or subscribe to HUD events.
+ Invariants: Widget IDs stay stable for routing, the center safe zone remains clear, and UI updates run on Unity's main thread.
+ Known Faults: Live Android bridge input is not complete yet, so several demo paths still use mock data or simulated events.
+ Major Blocks: The inline comments below mark lifecycle hooks, data routing, validation, persistence, and UI update blocks.
+ Line Comments: Important statements and branches carry short notes where a teammate would otherwise need extra context.
+*/
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,9 +32,9 @@ namespace HudLink.Widgets
     public static class WidgetStyles
     {
         // Background
-        public static readonly Color BgPrimary = new(0.08f, 0.08f, 0.12f, 0.85f);
-        public static readonly Color BgHeader = new(0.12f, 0.12f, 0.18f, 0.9f);
-        public static readonly float CornerRadius = 12f;
+        public static readonly Color BgPrimary = new(0.08f, 0.09f, 0.12f, 0.94f);
+        public static readonly Color BgHeader = new(0.05f, 0.08f, 0.1f, 0.15f);
+        public static readonly float CornerRadius = 8f;
 
         // Text
         public static readonly Color TextPrimary = new(0.95f, 0.95f, 0.97f);
@@ -28,14 +49,14 @@ namespace HudLink.Widgets
         public static readonly Color AccentCyan = new(0.3f, 0.85f, 0.9f);
 
         // Spacing
-        public const float PaddingOuter = 12f;
-        public const float PaddingInner = 6f;
-        public const float HeaderHeight = 0.2f; // As fraction of widget height
+        public const float PaddingOuter = 22f;
+        public const float PaddingInner = 8f;
+        public const float HeaderHeight = 0.24f; // As fraction of widget height
 
         // Font sizes (scaled for world-space at 0.001 canvas scale)
-        public const int FontSizeTitle = 14;
-        public const int FontSizeValue = 42;
-        public const int FontSizeUnit = 16;
+        public const int FontSizeTitle = 13;
+        public const int FontSizeValue = 30;
+        public const int FontSizeUnit = 13;
         public const int FontSizeStatus = 11;
 
         /// <summary>
@@ -43,6 +64,11 @@ namespace HudLink.Widgets
         /// </summary>
         public static Image CreateStyledBackground(Transform parent, Color bgColor, Color? borderColor = null)
         {
+            if (parent.GetComponent<RectMask2D>() == null)
+            {
+                parent.gameObject.AddComponent<RectMask2D>();
+            }
+
             // Main background
             var bgGo = new GameObject("Background");
             bgGo.transform.SetParent(parent, false);
@@ -66,7 +92,7 @@ namespace HudLink.Widgets
                 var borderRect = borderGo.AddComponent<RectTransform>();
                 borderRect.anchorMin = new Vector2(0, 1f);
                 borderRect.anchorMax = Vector2.one;
-                borderRect.offsetMin = new Vector2(0, -3f);
+                borderRect.offsetMin = new Vector2(0, -4f);
                 borderRect.offsetMax = Vector2.zero;
 
                 var borderImg = borderGo.AddComponent<Image>();
@@ -91,23 +117,17 @@ namespace HudLink.Widgets
             headerRect.offsetMax = new Vector2(-PaddingOuter, 0);
 
             // Header background
-            var headerBgGo = new GameObject("HeaderBg");
-            headerBgGo.transform.SetParent(headerGo.transform, false);
-            headerBgGo.transform.SetAsFirstSibling();
-            var headerBgRect = headerBgGo.AddComponent<RectTransform>();
-            headerBgRect.anchorMin = Vector2.zero;
-            headerBgRect.anchorMax = Vector2.one;
-            headerBgRect.offsetMin = new Vector2(-PaddingOuter, 0);
-            headerBgRect.offsetMax = new Vector2(PaddingOuter, 0);
-            var headerBgImg = headerBgGo.AddComponent<Image>();
-            headerBgImg.color = BgHeader;
-
             var tmp = headerGo.AddComponent<TextMeshProUGUI>();
-            tmp.text = $"{icon}  {title}";
+            tmp.text = $"{icon} + {title}";
             tmp.fontSize = FontSizeTitle;
             tmp.color = accentColor;
             tmp.alignment = TextAlignmentOptions.MidlineLeft;
             tmp.fontStyle = FontStyles.Bold;
+            tmp.enableAutoSizing = true;
+            tmp.fontSizeMin = 9;
+            tmp.fontSizeMax = FontSizeTitle;
+            tmp.overflowMode = TextOverflowModes.Truncate;
+            tmp.margin = new Vector4(2f, 0f, 2f, 0f);
 
             return tmp;
         }
@@ -121,8 +141,8 @@ namespace HudLink.Widgets
             go.transform.SetParent(parent, false);
 
             var rect = go.AddComponent<RectTransform>();
-            rect.anchorMin = new Vector2(0, 0.2f);
-            rect.anchorMax = new Vector2(0.7f, 1f - HeaderHeight);
+            rect.anchorMin = new Vector2(0, 0.3f);
+            rect.anchorMax = new Vector2(0.68f, 1f - HeaderHeight);
             rect.offsetMin = new Vector2(PaddingOuter, 0);
             rect.offsetMax = new Vector2(0, -PaddingInner);
 
@@ -132,6 +152,11 @@ namespace HudLink.Widgets
             tmp.color = TextPrimary;
             tmp.alignment = TextAlignmentOptions.BottomLeft;
             tmp.fontStyle = FontStyles.Bold;
+            tmp.enableAutoSizing = true;
+            tmp.fontSizeMin = 16;
+            tmp.fontSizeMax = FontSizeValue;
+            tmp.overflowMode = TextOverflowModes.Truncate;
+            tmp.margin = new Vector4(2f, 0f, 2f, 0f);
 
             return tmp;
         }
@@ -145,8 +170,8 @@ namespace HudLink.Widgets
             go.transform.SetParent(parent, false);
 
             var rect = go.AddComponent<RectTransform>();
-            rect.anchorMin = new Vector2(0.7f, 0.25f);
-            rect.anchorMax = new Vector2(1f, 0.55f);
+            rect.anchorMin = new Vector2(0.68f, 0.33f);
+            rect.anchorMax = new Vector2(1f, 0.56f);
             rect.offsetMin = new Vector2(PaddingInner, 0);
             rect.offsetMax = new Vector2(-PaddingOuter, 0);
 
@@ -155,6 +180,10 @@ namespace HudLink.Widgets
             tmp.fontSize = FontSizeUnit;
             tmp.color = TextSecondary;
             tmp.alignment = TextAlignmentOptions.BottomLeft;
+            tmp.enableAutoSizing = true;
+            tmp.fontSizeMin = 9;
+            tmp.fontSizeMax = FontSizeUnit;
+            tmp.overflowMode = TextOverflowModes.Truncate;
 
             return tmp;
         }
@@ -169,7 +198,7 @@ namespace HudLink.Widgets
 
             var rect = go.AddComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
-            rect.anchorMax = new Vector2(1f, 0.2f);
+            rect.anchorMax = new Vector2(1f, 0.22f);
             rect.offsetMin = new Vector2(PaddingOuter, PaddingInner);
             rect.offsetMax = new Vector2(-PaddingOuter, 0);
 
@@ -178,6 +207,11 @@ namespace HudLink.Widgets
             tmp.fontSize = FontSizeStatus;
             tmp.color = TextMuted;
             tmp.alignment = TextAlignmentOptions.MidlineLeft;
+            tmp.enableAutoSizing = true;
+            tmp.fontSizeMin = 8;
+            tmp.fontSizeMax = FontSizeStatus;
+            tmp.overflowMode = TextOverflowModes.Truncate;
+            tmp.margin = new Vector4(2f, 0f, 18f, 0f);
 
             return tmp;
         }
@@ -191,11 +225,10 @@ namespace HudLink.Widgets
             go.transform.SetParent(parent, false);
 
             var rect = go.AddComponent<RectTransform>();
-            rect.anchorMin = new Vector2(1f, 0f);
-            rect.anchorMax = new Vector2(1f, 0.2f);
-            rect.offsetMin = new Vector2(-PaddingOuter - 8f, PaddingInner + 2f);
-            rect.offsetMax = new Vector2(-PaddingOuter, PaddingInner + 10f);
-            rect.sizeDelta = new Vector2(8f, 8f);
+            rect.anchorMin = new Vector2(1f, 1f);
+            rect.anchorMax = new Vector2(1f, 1f);
+            rect.anchoredPosition = new Vector2(-PaddingOuter, -42f);
+            rect.sizeDelta = new Vector2(14f, 14f);
 
             var img = go.AddComponent<Image>();
             img.color = color;

@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: colors.xml
+ Description: Stores reusable color resources for the Android companion app theme and launcher assets.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added starter color resources.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android resource tools load this file during app resource compilation.
+ Acceptable Inputs: Valid color resource names and ARGB or RGB color values.
+ Unacceptable Inputs: Duplicate names, malformed XML, or invalid color literals.
+ Postconditions: Themes and drawables can reference stable color resources.
+ Return Values: Resource XML does not return values; Android generates integer resource IDs.
+ Error and Exception Conditions: Resource compilation fails on invalid XML or invalid color values.
+ Side Effects: Adds color values to the generated R class.
+ Invariants: Color names remain stable for theme and icon references.
+ Known Faults: Color palette is still starter-level and can be refined with final visual design.
+ Major Blocks: The resources block groups app color values.
+ Line Comments: XML comments are kept at the artifact level because each color name is self-describing.
+-->
 <resources>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

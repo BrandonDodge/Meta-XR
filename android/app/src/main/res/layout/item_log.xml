@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: item_log.xml
+ Description: Defines one row in the Android companion debug log list.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added the first debug log row layout.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: LogAdapter inflates this layout through ItemLogBinding.
+ Acceptable Inputs: Valid TextView IDs, text sizes, colors, and preview strings.
+ Unacceptable Inputs: Missing IDs used by LogAdapter or layout widths that prevent messages from fitting.
+ Postconditions: LogAdapter can bind timestamp, metric type, and message text for each row.
+ Return Values: Layout XML does not return values; Android resource tools generate binding classes from it.
+ Error and Exception Conditions: Resource compilation fails on invalid XML, missing attributes, or unresolved resources.
+ Side Effects: Generates ItemLogBinding and controls debug list row spacing.
+ Invariants: Timestamp, type, and message IDs stay aligned with LogAdapter.bind().
+ Known Faults: Long messages may still need future wrapping polish for a production screen.
+ Major Blocks: The row contains timestamp, type, and message text in left-to-right order.
+ Line Comments: XML comments are kept at the artifact level so row attributes remain easy to scan.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

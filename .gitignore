@@ -1,0 +1,34 @@
+# Code Artifact: .gitignore
+# Description: Keeps local build products, editor caches, and verification scratch folders out of source control.
+# Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+# Date Created: 2026-04-26
+# Revision History:
+# - 2026-04-26 - HudLink development team - Added ignore rules after local Android build verification.
+# Preconditions: Git reads this file from the repository root.
+# Acceptable Inputs: Git ignore patterns for generated files, local caches, and machine-specific folders.
+# Unacceptable Inputs: Patterns that hide source files, sprint documents, project settings, or release artifacts that should be reviewed.
+# Postconditions: Local build caches and generated outputs do not appear as untracked release changes.
+# Return Values: Git ignore files do not return values; Git consumes the patterns when showing status or staging files.
+# Error and Exception Conditions: Bad patterns can accidentally hide files, so source folders are not ignored here.
+# Side Effects: Changes how Git reports local generated files.
+# Invariants: Team-owned source, documents, and build scripts remain visible to Git.
+# Known Faults: Existing tracked generated files remain tracked until the team explicitly removes them.
+# Major Blocks: Root-level cache rules come first, followed by Android and Unity generated folders.
+# Line Comments: Each group has a short heading so the ignore intent is clear.
+
+# Local verification homes used when Gradle cannot write to user profile folders.
+.gradle-home/
+.android-home/
+
+# Android and Gradle generated output.
+android/.gradle/
+android/**/build/
+
+# Unity generated output and local editor state.
+Unity/Library/
+Unity/Logs/
+Unity/Temp/
+Unity/Obj/
+Unity/Build/
+Unity/Builds/
+Unity/UserSettings/

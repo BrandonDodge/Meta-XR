@@ -395,8 +395,13 @@ MonoBehaviour:
   gpsWidgetPrefab: {fileID: 1695495041990398675, guid: fa36627540c9c4e4e8be3c099cc80bd8, type: 3}
   notificationWidgetPrefab: {fileID: 8955913283758930480, guid: 735ebcb06763d4edf9a4794251a66f2e, type: 3}
   heartRateSlot: 0
-  gpsSlot: 7
+  gpsSlot: 8
   notificationSlot: 2
+  disableVirtualDemo: 0
+  showDefaultWidgetsInVirtualDemo: 0
+  enableDemoLocomotion: 1
+  virtualDemoManager: {fileID: 0}
+  demoLocomotionController: {fileID: 0}
 --- !u!114 &892354386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,9 +707,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42026ad13c0614789857d642ff792360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HudLink.HUD.HudGridLayout
-  cellWidth: 200
-  cellHeight: 140
+  cellWidth: 330
+  cellHeight: 158
   spacing: 20
+  horizontalSpacing: 130
+  verticalSpacing: 12
+  verticalOffset: 52
 --- !u!114 &1559383747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,9 +726,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HudLink.HUD.HudFollowHead
   headTransform: {fileID: 0}
-  distanceFromHead: 2
-  followSpeed: 3
-  angleThreshold: 15
+  distanceFromHead: 1.15
+  followSpeed: 4
+  angleThreshold: 12
 --- !u!114 &1559383748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,7 +820,7 @@ RectTransform:
   m_GameObject: {fileID: 1559383745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
+  m_LocalScale: {x: 0.0019, y: 0.0019, z: 0.0019}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -820,7 +828,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 184.75, y: 213.75}
-  m_SizeDelta: {x: 800, y: 600}
+  m_SizeDelta: {x: 1320, y: 840}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1654811255 stripped
 GameObject:

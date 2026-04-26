@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: AndroidManifest.xml
+ Description: Declares the Android companion application class, launcher activity, app label, icons, and theme.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added the first Android companion app shell.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android Gradle Plugin merges this manifest with library manifests during the app build.
+ Acceptable Inputs: Valid Android component names, resources, exported flags, and launcher intent-filter values.
+ Unacceptable Inputs: Missing application class names, missing resources, invalid activity names, or unsafe exported settings.
+ Postconditions: Android can install and launch MainActivity as the HUD-Link companion entry point.
+ Return Values: Manifest files do not return values; Android build tools consume the declarations.
+ Error and Exception Conditions: The manifest merger fails if required resources, classes, or attributes cannot be resolved.
+ Side Effects: Adds app metadata, launcher visibility, and component registration to the generated APK.
+ Invariants: MainActivity remains the launcher activity and HudLinkApplication remains the Hilt application class.
+ Known Faults: Runtime permissions for future live sensors still need to be added when those integrations are implemented.
+ Major Blocks: The application block owns app-wide metadata, and the activity block declares the launch entry point.
+ Line Comments: XML comments are kept at the artifact and block level so the resource remains readable in Android Studio.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application

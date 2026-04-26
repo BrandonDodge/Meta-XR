@@ -1,3 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: AndroidManifest.xml
+ Description: Provides the manifest stub for the feature-health Android library module.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-03-23
+ Revision History:
+ - 2026-03-23 - Asa Maker - Added health feature module structure.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android Gradle Plugin merges this library manifest into the companion app build.
+ Acceptable Inputs: A valid package namespace and future health permission declarations.
+ Unacceptable Inputs: Permission declarations that are not supported by the current data-source implementation.
+ Postconditions: The health module participates in manifest merging without adding runtime components.
+ Return Values: Manifest files do not return values; Android build tools consume the declarations.
+ Error and Exception Conditions: The manifest merger reports invalid XML or conflicting declarations.
+ Side Effects: Contributes library metadata to the app build.
+ Invariants: Health data remains consent-gated and local by default.
+ Known Faults: Live Health Connect permissions are not declared until that integration is added.
+ Major Blocks: The manifest root is intentionally minimal.
+ Line Comments: XML comments are kept at the artifact level because the file has no nested behavior.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 </manifest>

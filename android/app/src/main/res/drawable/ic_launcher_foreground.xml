@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ Code Artifact: ic_launcher_foreground.xml
+ Description: Draws the simple HUD-Link launcher foreground mark used by the adaptive icon.
+ Programmer: HudLink development team (Brandon Dodge, Zach Sevart, Asa Maker, Jonathan Gott, Josh Dwoskin)
+ Date Created: 2026-02-15
+ Revision History:
+ - 2026-02-15 - Zach Sevart - Added starter launcher artwork.
+ - 2026-04-26 - HudLink development team - Added release prologue comments for sprint submission.
+ Preconditions: Android resource tools compile this vector as a drawable resource.
+ Acceptable Inputs: Valid vector dimensions, viewport values, fill colors, and path data.
+ Unacceptable Inputs: Malformed path data, invalid colors, or dimensions that break launcher icon rendering.
+ Postconditions: The adaptive icon can reference a stable foreground drawable.
+ Return Values: Vector XML does not return values; Android generates drawable resource IDs.
+ Error and Exception Conditions: Resource compilation fails on invalid vector XML or path data.
+ Side Effects: Adds launcher artwork to the generated APK resources.
+ Invariants: The foreground remains a simple H mark for HUD-Link branding.
+ Known Faults: Artwork is placeholder-level and can be replaced by a final brand asset.
+ Major Blocks: The vector root defines the canvas, and the path draws the foreground mark.
+ Line Comments: XML comments are kept at the artifact level because vector path data is easier to read without trailing notes.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
